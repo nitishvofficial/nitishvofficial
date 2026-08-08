@@ -4,13 +4,7 @@
 <!-- DOOM SUPREME // LATVERIAN COMMAND MATRIX HUD                         -->
 <!-- ==================================================================== -->
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=050B08&custom_color_1=00C853&height=250&section=header&text=VELLANKI%20NITISH%20%7C%7C%20DOCTOR%20DOOM&fontSize=34&fontColor=FFD700&fontAlign=50&fontAlignY=36&desc=%E2%9A%A1%20SOVEREIGN%20OF%20ARTIFICIAL%20INTELLIGENCE%20%26%20SUPREME%20BACKEND%20ARCHITECT%20%E2%9A%A1&descSize=13&descAlign=50&descAlignY=62&animation=twinkling" width="100%" alt="Doctor Doom Header Banner" />
-
-<br/>
-
-<p align="center">
-  <img src="./assets/avatar.jpg" width="290" style="border-radius: 50%; border: 4px solid #FFD700; box-shadow: 0 0 45px rgba(0, 200, 83, 0.9), 0 0 20px rgba(255, 215, 0, 0.7); display: block; margin: 0 auto;" alt="Doctor Doom Supreme Core" />
-</p>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=050B08&custom_color_1=00C853&height=250&section=header&text=VELLANKI%20NITISH%20%7C%7C%20DOCTOR%20DOOM&fontSize=34&fontColor=FFD700&fontAlign=50&fontAlignY=36&desc=%E2%9A%A1%20SOVEREIGN%20OF%20ARTIFICIAL%20INTELLIGENCE%20%7C%7C%20SUPREME%20BACKEND%20ARCHITECT%20%E2%9A%A1&descSize=13&descAlign=50&descAlignY=62&animation=twinkling" width="100%" alt="Doctor Doom Header Banner" />
 
 <br/>
 
@@ -598,6 +592,12 @@
   <img src="https://github-readme-activity-graph.vercel.app/graph?username=nitishvofficial&theme=github-compact&bg_color=050B08&color=00C853&line=FFD700&point=E8FFF4&area=true&hide_border=false&border=FFD700" width="100%" alt="Activity Graph" />
 </p>
 
+<br/>
+
+<p align="center">
+  <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=nitishvofficial&theme=github_dark" width="100%" alt="3D Profile Summary & Contribution Graph" />
+</p>
+
 <br/><br/>
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" alt="Divider" />
@@ -613,11 +613,22 @@
 
 <br/>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nitishvofficial/nitishvofficial/output/github-contribution-grid-snake-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/nitishvofficial/nitishvofficial/output/github-contribution-grid-snake.svg">
-  <img alt="GitHub Snake Contribution Grid" src="https://raw.githubusercontent.com/nitishvofficial/nitishvofficial/output/github-contribution-grid-snake-dark.svg" width="100%">
-</picture>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nitishvofficial/nitishvofficial/output/github-contribution-grid-snake-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/nitishvofficial/nitishvofficial/output/github-contribution-grid-snake.svg">
+    <img alt="GitHub Snake Contribution Grid" src="https://raw.githubusercontent.com/nitishvofficial/nitishvofficial/output/github-contribution-grid-snake-dark.svg" width="100%">
+  </picture>
+</p>
+
+<blockquote align="center">
+  <b>⚡ How to enable the Animated Snake Graph instantly:</b><br/>
+  1. Go to your GitHub Repository: <code>nitishvofficial/nitishvofficial</code><br/>
+  2. Click on the <b>Actions</b> tab at the top.<br/>
+  3. Select <b>Generate Snake Contribution Grid</b> on the left menu.<br/>
+  4. Click <b>Run workflow</b> -> <b>Run workflow</b> button.<br/>
+  <i>The animated snake will generate and appear on your profile automatically!</i>
+</blockquote>
 
 <br/>
 
@@ -633,13 +644,22 @@ on:
   schedule:
     - cron: "0 0 * * *"
   workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: Platane/snk@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Generate Snake Animation SVGs
+        uses: Platane/snk/svg-only@v3
         with:
           github_user_name: nitishvofficial
           outputs: |
@@ -647,7 +667,9 @@ jobs:
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark&color_snake=%2339FF88&color_dots=%230B1511,%2300C853,%2339FF88,%23C7A64B
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: crazy-max/ghaction-github-pages@v3.1.0
+
+      - name: Deploy SVGs to Output Branch
+        uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: output
           build_dir: dist
